@@ -11,7 +11,7 @@
                 <ElInput v-model="formData.comments"/>
             </ElFormItem>
             <ElFormItem label="Value:" prop="value">
-                <ElInput v-model.number="formData.value"/>
+                <ElInput v-model.number="formData.value" :onchange="outcomeAddMinus"/>
             </ElFormItem>
             <ElButton @click="onSubmit" type="primary">Submit</ElButton>
         </ElForm>
@@ -20,10 +20,25 @@
 </template>
 
 <script>
-	export default {
+
+
+	let checkNumber = (rule, value, callback) => {
+        if (!value) {
+            return callback(new Error('Пожалуйста, укажите данные по бюджету!'));
+        }
+        setTimeout(() => {
+            if (!Number.isInteger(value)) {
+                callback(new Error('Пожалуйста, введите число!'));
+            } else {
+                    callback();
+                }
+        }, 1000);
+	};
+
+    export default {
 		name: "Form",
          data: () => ({
-            formData: {
+             formData: {
                  type: 'INCOME',
                  comments: '',
                  value: 0
@@ -36,17 +51,26 @@
                      {required: true, message: 'Please input comment', trigger: 'blur'}
                 ],
                  value:  [
-                    {required: true, message: 'Please input value', trigger: 'blur'},
-                    {type: "number", message: 'Value must be a number', trigger: 'blur'}
+                    { validator: checkNumber, trigger: 'blur' },
                  ]
             }
          }),
+         computed:{
+              // eslint-disable-next-line vue/return-in-computed-property
+             outcomeAddMinus(){
+                  // eslint-disable-next-line no-constant-condition
+                if (this.formData.type === "OUTCOME" && this.formData.value > 0){
+                     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                    this.formData.value = -(this.formData.value);
+                }
+             }
+         },
          methods: {
              onSubmit() {
                 this.$refs.addItemForm.validate((valid) => {
                     if(valid){
                         this.$emit('submitForm', {...this.formData});
-                        this.$refs.addItemForm.restFiealds();
+                        this.$refs.addItemForm.resetFields();
                     }
                 })
              }

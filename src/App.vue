@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import BudgetList from "./components/BudgetList";
-import TotalBalance from './components/TotalBalance'
-import Form from './components/Form'
+import BudgetList from "./components/BudgetList/BudgetList";
+import TotalBalance from './components/TotalBalance/TotalBalance'
+import Form from './components/Form/Form'
 
 export default {
   name: 'app',
@@ -50,7 +50,7 @@ export default {
     onFormSubmit(data){
       let newObj = {
         ...data,
-        id: String(Math.random())
+        id: Object.keys(this.list).length * Math.random()*1000
       };
 
       this.$set(this.list, newObj.id, newObj);
