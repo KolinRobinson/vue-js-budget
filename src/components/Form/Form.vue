@@ -1,19 +1,24 @@
 <template>
     <ElCard class="form-card">
-        <ElForm :model="formData" ref="addItemForm" :rules="rules" label-position="top">
-            <ElFormItem label="Type:" prop="type">
-                <ElSelect class="type-select" v-model="formData.type" placeholder="Choose Type...">
-                    <ElOption label="Income" value="INCOME" />
-                    <ElOption label="Outcome" value="OUTCOME" />
+        <ElForm :model="formData"
+                ref="addItemForm"
+                :rules="rules"
+                abel-position="top">
+            <ElFormItem label="Тип:" prop="type">
+                <ElSelect class="type-select"
+                          v-model="formData.type"
+                          placeholder="Choose Type...">
+                    <ElOption label="Доход" value="INCOME" />
+                    <ElOption label="Трата" value="OUTCOME" />
                 </ElSelect>
             </ElFormItem>
-            <ElFormItem label="Comment:" prop="comments">
+            <ElFormItem label="Комментарий:" prop="comments">
                 <ElInput v-model="formData.comments"/>
             </ElFormItem>
-            <ElFormItem label="Value:" prop="value">
+            <ElFormItem label="Количество:" prop="value">
                 <ElInput v-model.number="formData.value" :onchange="outcomeAddMinus"/>
             </ElFormItem>
-            <ElButton @click="onSubmit" type="primary">Submit</ElButton>
+            <ElButton @click="onSubmit" type="primary">Отправить</ElButton>
         </ElForm>
     </ElCard>
 
@@ -45,10 +50,10 @@
             },
             rules:{
                 type: [
-                     {required: true, message: 'Please select type', trigger: 'blur'}
+                     {required: true, message: 'Пожалуйста, выберите тип поступления!', trigger: 'blur'}
                 ],
                 comments: [
-                     {required: true, message: 'Please input comment', trigger: 'blur'}
+                     {required: true, message: 'Пожалуйста, укажите данные по бюджету!', trigger: 'blur'}
                 ],
                  value:  [
                     { validator: checkNumber, trigger: 'blur' },

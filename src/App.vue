@@ -2,7 +2,8 @@
   <div id="app">
     <Form @submitForm="onFormSubmit"/>
     <TotalBalance :total="totalBalance"/>
-    <BudgetList :list="list" @deleteItem="onDeleteItem"/>
+    <BudgetList :list="list"
+                @deleteItem="onDeleteItem"/>
 
   </div>
 </template>
@@ -23,14 +24,14 @@ export default {
     list: {
       1: {
         type: 'INCOME',
-        value: 100,
-        comments: 'Some Comments',
+        value: 5200,
+        comments: 'Зарплата',
         id: 1
       },
       2: {
         type: 'OUTCOME',
-        value: -50,
-        comments: 'Some outcome Comments',
+        value: -150,
+        comments: 'Пополнение счета',
         id: 2
       }
     }
@@ -41,7 +42,7 @@ export default {
               (acc, item) => acc+item.value,
               0
       );
-    }
+    },
   },
   methods: {
     onDeleteItem(id){

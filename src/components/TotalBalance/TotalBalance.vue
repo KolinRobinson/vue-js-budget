@@ -1,6 +1,6 @@
 <template>
     <div class="total-value" :class="totalColor">
-        Balance: {{ total }}
+        Балланс: {{ total }}
     </div>
 </template>
 

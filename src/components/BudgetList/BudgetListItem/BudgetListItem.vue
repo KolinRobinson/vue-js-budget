@@ -1,12 +1,22 @@
 <template>
     <div>
-        <div class="list-item" v-for="(item, prop) in list" :key="prop" v-show="filtersShow">
+        <div class="list-item"
+             v-for="(item, prop) in list"
+             :key="prop"
+             v-show="item.type === budgetFiltersShow(budgetFiltersKey, item.type)">
             <span class="budget-comment">
                 <i :class="iconBudget(item.value)"></i>
                 {{ item.comments }}
             </span>
-            <span class="budget-value" :class="totalColor(item.value)">{{ item.value }}</span>
-            <ElButton type="danger" size="mini"  @click="dialogVisible = true">Delete</ElButton>
+            <span class="budget-value"
+                  :class="totalColor(item.value)">
+                {{ item.value }}
+            </span>
+            <ElButton type="danger"
+                      size="mini"
+                      @click="dialogVisible = true">
+                Удалить
+            </ElButton>
             <el-dialog
                     title="Удаление"
                     :visible.sync="dialogVisible"
@@ -33,8 +43,14 @@
             list: {
                 type: Object,
                 default: () => ({})
+            },
+            budgetFiltersKey: {
+                type: String
             }
         },
+         computed: {
+
+         },
         methods: {
             deleteItem(id) {
                 this.dialogVisible = false;
@@ -55,16 +71,17 @@
                     return "red";
                 }
             },
-            // filtersShow(value) {
-            //      // eslint-disable-next-line no-constant-condition
-            //     if (value === 100){
-            //         return "item.type === 'OUTCOME'";
-            //     } else if (item === 'OUTCOME'){
-            //         return "item.type === 'OUTCOME'";
-            //     } else {
-            //         return true;
-            //     }
-            // }
+            budgetFiltersShow(budgetFiltersKey, key){
+                if (budgetFiltersKey === 'income'){
+                    return  'INCOME';
+                } else if (budgetFiltersKey === 'outcome'){
+                    return 'OUTCOME';
+                } else if (budgetFiltersKey === 'all'){
+                    return key;
+                } else {
+                    return key;
+                }
+            }
         }
 	}
 </script>

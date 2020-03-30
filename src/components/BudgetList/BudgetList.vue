@@ -2,12 +2,19 @@
     <div class="budget-list-wrap">
         <ElCard :header="header">
             <template v-if="!isEmpty">
-                <ElButton @click="filterType(item.type)"
-                          v-for="item in buttons"
-                          :key="item">
-                    {{item.name}}
+                <ElButton v-on:click="budgetFiltersKey = 'income'">
+                    Доходы
                 </ElButton>
-                <BudgetListItem  :list="$props.list" @deleteItem="deleteItem" />
+                <ElButton v-on:click="budgetFiltersKey = 'outcome'">
+                    Траты
+                </ElButton>
+                <ElButton v-on:click="budgetFiltersKey = 'all'">
+                    Все
+                </ElButton>
+                <BudgetListItem  :list="list"
+                                 @deleteItem="deleteItem"
+                                 :budgetFiltersKey="budgetFiltersKey"
+                                 />
             </template>
             <ElAlert v-else type="info" :title="emptyTittle" :closable="false"/>
         </ElCard>
@@ -16,44 +23,32 @@
 
 <script>
 import BudgetListItem from "./BudgetListItem/BudgetListItem";
-
 	export default {
 		name: "BudgetList",
         components: {BudgetListItem},
-        props: ['list'],
+        props:{
+            list: {
+                type: Object,
+                default: () => ({})
+                }
+            },
          data: () => ({
-            a: '',
-             buttons: {
-                1: {
-                    name: 'OUTCOME',
-                    type: 'OUTCOME'
-                },
-                 2: {
-                     name: 'INCOME',
-                     type: 'INCOME'
-                 },
-                 3: {
-                     name: 'ALL',
-                     type: 'ALL'
-                 }
-             },
+            budgetFiltersKey: 'all',
               header: 'Budget list',
               emptyTittle: 'Empty list'
          }),
          computed: {
 			isEmpty() {
 				return !Object.keys(this.list).length;
+            },
+            budgetFilters(){
+                return this.budgetFiltersKey;
             }
          },
          methods: {
             deleteItem(id) {
                 this.$emit('deleteItem', id);
             },
-            filterType(type){
-                 // eslint-disable-next-line no-unused-vars
-                let a;
-                return a = type;
-             }
         }
 
 	}
